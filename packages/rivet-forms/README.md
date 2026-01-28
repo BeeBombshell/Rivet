@@ -32,17 +32,14 @@ const MyForm = () => {
 };
 ```
 
-## Logic & Calculations
+### Calculation Engine
+The engine supports complex formulas for calculated fields:
+- **Field References**: `{fieldId}` or `@fieldId`
+- **Operators**: `+`, `-`, `*`, `/`, `%`
+- **Functions**: `SUM(...)`, `AVG(...)`, `MIN(...)`, `MAX(...)`
+- **Dependent Calculations**: Calculations can reference other calculated fields.
 
-The library includes a `useFormLogic` hook that handles visibility and formulas:
-
-```tsx
-import { useFormLogic } from 'rivet-forms';
-
-const { visibleFieldIds, calculatedValues } = useFormLogic(schema, formValues);
-```
-
-### Operators Supported:
+### Logic Operators Supported:
 - `equals`, `notEquals`
 - `contains`, `notContains`
 - `greaterThan`, `lessThan`

@@ -5,3 +5,5 @@ export * from './types/field.types';
 export * from './types/logic.types';
 export * from './types/form.types';
 export * from './components/fields';
+export * from './logic/conditionalEngine';
+export * from './logic/calculationEngine';

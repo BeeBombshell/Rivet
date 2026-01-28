@@ -42,7 +42,7 @@ pnpm build
 
 - **Tally-like UX**: Intuitive drag-and-drop interface for building forms.
 - **Conditional Logic**: Powerful engine for field visibility and dynamic behavior.
-- **Calculated Fields**: Support for formulas based on other field values.
+- **Calculated Fields**: Support for complex formulas using `{fieldId}`, `@fieldId`, math operations, and functions like `SUM`, `AVG`, `MIN`, `MAX`. Supports dependent calculations.
 - **Type Safety**: Built with TypeScript from the ground up.
 - **Modern Stack**: Next.js, Tailwind CSS, React Hook Form, and Zod.
 
