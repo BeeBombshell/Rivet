@@ -40,42 +40,52 @@ export interface BaseField {
     disabled?: boolean;
 }
 
-export interface TextField extends BaseField {
+export interface TextFieldConfig extends BaseField {
     type: FieldType.TEXT;
 }
 
-export interface EmailField extends BaseField {
+export interface EmailFieldConfig extends BaseField {
     type: FieldType.EMAIL;
 }
 
-export interface NumberField extends BaseField {
+export interface NumberFieldConfig extends BaseField {
     type: FieldType.NUMBER;
 }
 
-export interface SelectField extends BaseField {
+export interface SelectFieldConfig extends BaseField {
     type: FieldType.SELECT;
     options: FieldOption[];
 }
 
-export interface RadioField extends BaseField {
+export interface RadioFieldConfig extends BaseField {
     type: FieldType.RADIO;
     options: FieldOption[];
 }
 
-export interface CheckboxField extends BaseField {
+export interface CheckboxFieldConfig extends BaseField {
     type: FieldType.CHECKBOX;
     options: FieldOption[];
 }
 
-export interface TextAreaField extends BaseField {
+export interface TextAreaFieldConfig extends BaseField {
     type: FieldType.TEXTAREA;
 }
 
+export interface DateFieldConfig extends BaseField {
+    type: FieldType.DATE;
+}
+
+export interface FileFieldConfig extends BaseField {
+    type: FieldType.FILE;
+}
+
 export type FormField =
-    | TextField
-    | EmailField
-    | NumberField
-    | SelectField
-    | RadioField
-    | CheckboxField
-    | TextAreaField;
+    | TextFieldConfig
+    | EmailFieldConfig
+    | NumberFieldConfig
+    | SelectFieldConfig
+    | RadioFieldConfig
+    | CheckboxFieldConfig
+    | TextAreaFieldConfig
+    | DateFieldConfig
+    | FileFieldConfig;

@@ -1,25 +1,89 @@
 "use client";
 
 import { useState } from "react";
-import { FormBuilder, FormRenderer, Form } from "rivet-forms";
+import { FormBuilder, FormRenderer, FormSchema, FieldType } from "rivet-forms";
 
 export default function Home() {
-  const [form, setForm] = useState<Form>({
-    title: "Project Feedback",
+  const [form, setForm] = useState<FormSchema>({
+    id: "demo-form",
+    title: "Comprehensive Field Demo",
+    description: "This form showcases all the new field components created for Rivet Forms.",
     fields: [
       {
-        id: "1",
-        type: "text",
-        label: "What is your name?",
+        id: "text-1",
+        type: FieldType.TEXT,
+        label: "Full Name",
+        placeholder: "Enter your full name",
         required: true,
       },
       {
-        id: "2",
-        type: "email",
-        label: "What is your email?",
+        id: "email-1",
+        type: FieldType.EMAIL,
+        label: "Email Address",
+        placeholder: "you@example.com",
         required: true,
       },
+      {
+        id: "number-1",
+        type: FieldType.NUMBER,
+        label: "Age",
+        placeholder: "How old are you?",
+        validation: { min: 0, max: 120 }
+      },
+      {
+        id: "textarea-1",
+        type: FieldType.TEXTAREA,
+        label: "Bio",
+        placeholder: "Tell us about yourself...",
+        helpText: "Keep it brief and interesting."
+      },
+      {
+        id: "select-1",
+        type: FieldType.SELECT,
+        label: "Country",
+        placeholder: "Select your country",
+        options: [
+            { label: "United States", value: "us" },
+            { label: "India", value: "in" },
+            { label: "United Kingdom", value: "uk" }
+        ],
+        required: true
+      },
+      {
+        id: "checkbox-1",
+        type: FieldType.CHECKBOX,
+        label: "Interests",
+        options: [
+            { label: "Art", value: "art" },
+            { label: "Science", value: "science" },
+            { label: "Technology", value: "tech" }
+        ]
+      },
+      {
+        id: "radio-1",
+        type: FieldType.RADIO,
+        label: "Experience Level",
+        options: [
+            { label: "Beginner", value: "beg" },
+            { label: "Intermediate", value: "int" },
+            { label: "Expert", value: "exp" }
+        ]
+      },
+      {
+        id: "date-1",
+        type: FieldType.DATE,
+        label: "Birth Date",
+        required: true
+      },
+      {
+        id: "file-1",
+        type: FieldType.FILE,
+        label: "Profile Picture",
+        helpText: "Upload a square image for best results."
+      }
     ],
+    logicRules: [],
+    calculations: []
   });
 
   const [mode, setMode] = useState<"builder" | "preview">("builder");

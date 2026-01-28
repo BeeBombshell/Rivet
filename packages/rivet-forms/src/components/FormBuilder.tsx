@@ -129,11 +129,47 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ initialData, onChange 
               >
                   + Email
               </button>
-               <button 
+                <button 
                 onClick={() => addField(FieldType.TEXTAREA)}
                 className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
               >
                   + Long Text
+              </button>
+              <button 
+                onClick={() => addField(FieldType.NUMBER)}
+                className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
+              >
+                  + Number
+              </button>
+              <button 
+                onClick={() => addField(FieldType.SELECT)}
+                className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
+              >
+                  + Select
+              </button>
+              <button 
+                onClick={() => addField(FieldType.CHECKBOX)}
+                className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
+              >
+                  + Checkbox
+              </button>
+              <button 
+                onClick={() => addField(FieldType.RADIO)}
+                className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
+              >
+                  + Radio
+              </button>
+              <button 
+                onClick={() => addField(FieldType.DATE)}
+                className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
+              >
+                  + Date
+              </button>
+              <button 
+                onClick={() => addField(FieldType.FILE)}
+                className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
+              >
+                  + File
               </button>
           </div>
       </div>

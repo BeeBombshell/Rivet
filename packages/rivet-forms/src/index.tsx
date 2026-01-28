@@ -4,3 +4,4 @@ export * from './components/FormRenderer';
 export * from './types/field.types';
 export * from './types/logic.types';
 export * from './types/form.types';
+export * from './components/fields';

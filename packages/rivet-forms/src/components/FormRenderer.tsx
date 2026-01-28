@@ -3,7 +3,18 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormSchema } from '../types/form.types';
-import { FormField, FieldType } from '../types/field.types';
+import { FormField, FieldType, FieldOption } from '../types/field.types';
+import {
+    TextField,
+    EmailField,
+    NumberField,
+    TextareaField,
+    SelectField,
+    CheckboxField,
+    RadioField,
+    DateField,
+    FileUploadField
+} from './fields';
 
 interface FormRendererProps {
   form: FormSchema;
@@ -20,8 +31,14 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
     
     if (field.type === FieldType.EMAIL) {
       fieldSchema = z.string().email('Invalid email address');
-    } else if (field.type === FieldType.NUMBER) {
-      fieldSchema = z.number();
+    } else if (field.type === FieldType.SELECT || field.type === FieldType.RADIO) {
+      fieldSchema = z.string();
+    } else if (field.type === FieldType.CHECKBOX) {
+      fieldSchema = z.array(z.string());
+    } else if (field.type === FieldType.DATE) {
+        fieldSchema = z.string(); // Or z.date() if we parse it
+    } else if (field.type === FieldType.FILE) {
+        fieldSchema = z.any();
     }
     
     if (field.required) {
@@ -55,20 +72,9 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
                 {field.required && <span className="text-red-500 ml-1">*</span>}
               </label>
               
-              {field.type === FieldType.TEXT || field.type === FieldType.EMAIL || field.type === FieldType.NUMBER ? (
-                <input
-                  type={field.type === FieldType.NUMBER ? 'number' : 'text'}
-                  {...methods.register(field.id, { valueAsNumber: field.type === FieldType.NUMBER })}
-                  placeholder={field.placeholder}
-                  className="w-full border-b-2 border-gray-200 focus:border-black outline-none py-2 text-xl transition-colors bg-transparent"
-                />
-              ) : field.type === FieldType.TEXTAREA ? (
-                <textarea
-                  {...methods.register(field.id)}
-                  placeholder={field.placeholder}
-                  className="w-full border-b-2 border-gray-200 focus:border-black outline-none py-2 text-xl transition-colors bg-transparent min-h-[100px]"
-                />
-              ) : null}
+              <div className="mt-2">
+                {renderField(field, methods)}
+              </div>
               
               {methods.formState.errors[field.id] && (
                 <p className="text-red-500 text-sm">
@@ -88,4 +94,39 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
       </FormProvider>
     </div>
   );
+};
+
+const renderField = (field: FormField, methods: any) => {
+    const { register, setValue, watch, formState: { errors } } = methods;
+    const value = watch(field.id);
+    const error = errors[field.id]?.message as string;
+    const props = {
+        field,
+        value,
+        onChange: (val: any) => setValue(field.id, val, { shouldValidate: true }),
+        error,
+    };
+
+    switch (field.type) {
+        case FieldType.TEXT:
+            return <TextField {...(props as any)} />;
+        case FieldType.EMAIL:
+            return <EmailField {...(props as any)} />;
+        case FieldType.NUMBER:
+            return <NumberField {...(props as any)} />;
+        case FieldType.TEXTAREA:
+            return <TextareaField {...(props as any)} />;
+        case FieldType.SELECT:
+            return <SelectField {...(props as any)} />;
+        case FieldType.CHECKBOX:
+            return <CheckboxField {...(props as any)} />;
+        case FieldType.RADIO:
+            return <RadioField {...(props as any)} />;
+        case FieldType.DATE:
+            return <DateField {...(props as any)} />;
+        case FieldType.FILE:
+            return <FileUploadField {...(props as any)} />;
+        default:
+            return null;
+    }
 };
