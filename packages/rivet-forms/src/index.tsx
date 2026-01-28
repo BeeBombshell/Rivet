@@ -7,3 +7,5 @@ export * from './types/form.types';
 export * from './components/fields';
 export * from './logic/conditionalEngine';
 export * from './logic/calculationEngine';
+export * from './hooks/useFormBuilder';
+export * from './hooks/useFormLogic';

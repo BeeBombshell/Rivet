@@ -53,6 +53,36 @@ const MyForm = () => {
 };
 ```
 
+### State Management Hook
+
+`useFormBuilder` is a custom hook provided for developers who want to build their own UI around the Rivet state engine. It manages form schema, field actions, logic, and calculations with built-in undo/redo support.
+
+```tsx
+import { useFormBuilder } from 'rivet-forms';
+
+const MyCustomBuilder = () => {
+    const { schema, actions } = useFormBuilder(initialSchema);
+
+    return (
+        <div>
+            <button onClick={() => actions.addField({ type: 'text', label: 'New Field', ... })}>
+                Add Field
+            </button>
+            <button onClick={actions.undo} disabled={!actions.canUndo}>Undo</button>
+            <button onClick={actions.redo} disabled={!actions.canRedo}>Redo</button>
+            {/* Render your custom UI using schema.fields */}
+        </div>
+    );
+};
+```
+
+#### Available Actions:
+- **Fields**: `addField`, `removeField`, `updateField`, `reorderFields`
+- **Logic**: `addLogicRule`, `removeLogicRule`
+- **Calculations**: `addCalculation`, `removeCalculation`
+- **History**: `undo`, `redo`, `canUndo`, `canRedo`
+- **UI State**: `setSelectedFieldId`, `setIsDragging`
+
 ### Calculation Engine
 The engine supports complex formulas for calculated fields:
 - **Field References**: `{fieldId}` or `@fieldId`
