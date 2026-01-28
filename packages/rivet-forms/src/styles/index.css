@@ -2,19 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-.rivet-form-field {
-  @apply mb-4 transition-all duration-200;
+@layer base {
+  :root {
+    --rivet-primary: #000000;
+    --rivet-secondary: #6B7280;
+    --rivet-bg: #FFFFFF;
+    --rivet-input-bg: #F9FAFB;
+    --rivet-border: #E5E7EB;
+    --rivet-focus: #000000;
+    --rivet-error: #EF4444;
+  }
 }
 
-.rivet-input {
-  @apply w-full px-0 py-2 border-b border-transparent focus:border-blue-500 outline-none bg-transparent transition-all;
+.rivet-form-field {
+  @apply mb-8 transition-all duration-300 ease-in-out;
+}
+
+.rivet-form-field:hover .rivet-label {
+  @apply text-black;
 }
 
 .rivet-label {
-  @apply block text-sm font-medium text-gray-700 mb-1;
+  @apply block text-xl font-semibold text-gray-800 mb-3 transition-colors duration-200;
 }
 
-/* Tally-like UX: hide border until hover or focus */
+.rivet-input {
+  @apply w-full px-0 py-3 border-b-2 border-gray-100 outline-none bg-transparent transition-all duration-300;
+  @apply text-2xl font-normal text-gray-900 placeholder-gray-300;
+}
+
+.rivet-input:focus {
+  @apply border-black;
+}
+
+.rivet-input:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
 .tally-style-input {
-  @apply border-none focus:ring-0 px-0 text-lg font-normal placeholder-gray-300;
+  @apply border-b-2 border-gray-50 focus:border-black rounded-none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-field {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Custom styles for specific fields */
+.rivet-radio-group,
+.rivet-checkbox-group {
+  @apply space-y-3 mt-4;
+}
+
+.rivet-option-card {
+  @apply flex items-center gap-4 p-5 rounded-2xl border-2 border-gray-50 bg-white transition-all duration-200;
+  @apply hover:border-black hover:shadow-sm cursor-pointer active:scale-[0.99];
+}
+
+.rivet-option-card.selected {
+  @apply border-black bg-gray-50;
+}
+
+.rivet-error-text {
+  @apply text-sm text-red-500 font-medium mt-2 animate-field;
+}
+
+.rivet-help-text {
+  @apply text-sm text-gray-400 mt-2 font-light;
 }

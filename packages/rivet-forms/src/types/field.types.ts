@@ -79,6 +79,22 @@ export interface FileFieldConfig extends BaseField {
     type: FieldType.FILE;
 }
 
+export interface PhoneFieldConfig extends BaseField {
+    type: FieldType.PHONE;
+}
+
+export interface UrlFieldConfig extends BaseField {
+    type: FieldType.URL;
+}
+
+export interface SignatureFieldConfig extends BaseField {
+    type: FieldType.SIGNATURE;
+}
+
+export interface RatingFieldConfig extends BaseField {
+    type: FieldType.RATING;
+}
+
 export type FormField =
     | TextFieldConfig
     | EmailFieldConfig
@@ -88,4 +104,8 @@ export type FormField =
     | CheckboxFieldConfig
     | TextAreaFieldConfig
     | DateFieldConfig
-    | FileFieldConfig;
+    | FileFieldConfig
+    | PhoneFieldConfig
+    | UrlFieldConfig
+    | SignatureFieldConfig
+    | RatingFieldConfig;

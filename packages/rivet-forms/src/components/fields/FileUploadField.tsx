@@ -20,36 +20,28 @@ export const FileUploadField: React.FC<FieldProps<FileFieldConfig>> = ({
     };
 
     return (
-        <div className="rivet-form-field">
-            <label className="rivet-label">
-                {field.label}
-                {field.required && <span className="text-red-500 ml-1">*</span>}
+        <div className={`mt-2 p-6 border-2 border-dashed rounded-lg transition-colors ${
+            disabled ? 'bg-gray-50 border-gray-200' : 'border-gray-300 hover:border-blue-400 cursor-pointer'
+        }`}>
+            <input
+                type="file"
+                className="hidden"
+                id={`file-upload-${field.id}`}
+                onChange={handleFileChange}
+                disabled={disabled || field.disabled}
+                required={field.required}
+            />
+            <label 
+                htmlFor={`file-upload-${field.id}`}
+                className="flex flex-col items-center justify-center cursor-pointer"
+            >
+                <span className="text-sm text-gray-600">
+                    {value && value.length > 0 ? `${value.length} file(s) selected` : 'Click to upload or drag and drop'}
+                </span>
+                <span className="text-xs text-gray-400 mt-1">
+                    SVG, PNG, JPG or GIF (max. 800x400px)
+                </span>
             </label>
-            <div className={`mt-2 p-6 border-2 border-dashed rounded-lg transition-colors ${
-                disabled ? 'bg-gray-50 border-gray-200' : 'border-gray-300 hover:border-blue-400 cursor-pointer'
-            }`}>
-                <input
-                    type="file"
-                    className="hidden"
-                    id={`file-upload-${field.id}`}
-                    onChange={handleFileChange}
-                    disabled={disabled || field.disabled}
-                    required={field.required}
-                />
-                <label 
-                    htmlFor={`file-upload-${field.id}`}
-                    className="flex flex-col items-center justify-center cursor-pointer"
-                >
-                    <span className="text-sm text-gray-600">
-                        {value && value.length > 0 ? `${value.length} file(s) selected` : 'Click to upload or drag and drop'}
-                    </span>
-                    <span className="text-xs text-gray-400 mt-1">
-                        SVG, PNG, JPG or GIF (max. 800x400px)
-                    </span>
-                </label>
-            </div>
-            {field.helpText && <p className="text-xs text-gray-500 mt-2">{field.helpText}</p>}
-            {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
         </div>
     );
 };
