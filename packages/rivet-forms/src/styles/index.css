@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.rivet-form-field {
+  @apply mb-4 transition-all duration-200;
+}
+
+.rivet-input {
+  @apply w-full px-0 py-2 border-b border-transparent focus:border-blue-500 outline-none bg-transparent transition-all;
+}
+
+.rivet-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+/* Tally-like UX: hide border until hover or focus */
+.tally-style-input {
+  @apply border-none focus:ring-0 px-0 text-lg font-normal placeholder-gray-300;
+}
