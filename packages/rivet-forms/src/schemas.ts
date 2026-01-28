@@ -1,19 +1,7 @@
 import { z } from 'zod';
+import { FieldType } from './types/field.types';
 
-export const FieldTypeSchema = z.enum([
-    'text',
-    'textarea',
-    'number',
-    'email',
-    'date',
-    'select',
-    'checkbox',
-    'radio',
-    'section',
-    'page-break'
-]);
-
-export type FieldType = z.infer<typeof FieldTypeSchema>;
+export const FieldTypeSchema = z.nativeEnum(FieldType);
 
 export const FormFieldSchema = z.object({
     id: z.string(),
@@ -33,12 +21,8 @@ export const FormFieldSchema = z.object({
     }).optional()
 });
 
-export type FormField = z.infer<typeof FormFieldSchema>;
-
-export const FormSchema = z.object({
+export const FormSchemaObject = z.object({
     title: z.string(),
     description: z.string().optional(),
     fields: z.array(FormFieldSchema)
 });
-
-export type Form = z.infer<typeof FormSchema>;

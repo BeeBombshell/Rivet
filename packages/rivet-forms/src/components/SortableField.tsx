@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { FormField } from '../schemas';
+import { FormField, FieldType } from '../types/field.types';
 import { GripVertical, X } from 'lucide-react';
 
 interface SortableFieldProps {
@@ -47,7 +47,7 @@ export const SortableField: React.FC<SortableFieldProps> = ({ field, onUpdate, o
           onChange={(e) => onUpdate?.({ ...field, label: e.target.value })}
           placeholder="Ask a question..."
         />
-        {field.type === 'text' && (
+        {field.type === FieldType.TEXT && (
           <div className="mt-1 border-b border-gray-100 py-2 text-gray-400 text-sm">
             {field.placeholder || 'Type your answer here...'}
           </div>

@@ -14,16 +14,17 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { Form, FormField } from '../schemas';
+import { FormSchema } from '../types/form.types';
+import { FormField, FieldType } from '../types/field.types';
 import { SortableField } from './SortableField';
 
 export interface FormBuilderProps {
-  initialData?: Form;
-  onChange?: (data: Form) => void;
+  initialData?: FormSchema;
+  onChange?: (data: FormSchema) => void;
 }
 
 export const FormBuilder: React.FC<FormBuilderProps> = ({ initialData, onChange }) => {
-  const [form, setForm] = useState<Form>(initialData || { title: '', fields: [] });
+  const [form, setForm] = useState<FormSchema>(initialData || { id: '', title: '', fields: [], logicRules: [], calculations: [] });
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -45,14 +46,19 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ initialData, onChange 
     }
   };
 
-  const addField = (type: FormField['type']) => {
-    const newField: FormField = {
+  const addField = (type: FieldType) => {
+    const newField = {
       id: Math.random().toString(36).substr(2, 9),
       type,
       label: '',
       required: false,
-    };
-    const newForm = { ...form, fields: [...form.fields, newField] };
+    } as FormField;
+    
+    if ('options' in newField) {
+      (newField as any).options = [];
+    }
+
+    const newForm: FormSchema = { ...form, fields: [...form.fields, newField] };
     setForm(newForm);
     onChange?.(newForm);
   };
@@ -112,19 +118,19 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ initialData, onChange 
       <div className="mt-12 border-t border-gray-50 pt-8">
           <div className="flex gap-4">
                <button 
-                onClick={() => addField('text')}
+                onClick={() => addField(FieldType.TEXT)}
                 className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
               >
                   + Text
               </button>
               <button 
-                onClick={() => addField('email')}
+                onClick={() => addField(FieldType.EMAIL)}
                 className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
               >
                   + Email
               </button>
                <button 
-                onClick={() => addField('textarea')}
+                onClick={() => addField(FieldType.TEXTAREA)}
                 className="text-gray-400 hover:text-gray-600 font-medium transition-colors p-2 rounded hover:bg-gray-50"
               >
                   + Long Text

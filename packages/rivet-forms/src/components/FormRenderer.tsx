@@ -2,10 +2,11 @@ import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Form, FormField } from '../schemas';
+import { FormSchema } from '../types/form.types';
+import { FormField, FieldType } from '../types/field.types';
 
 interface FormRendererProps {
-  form: Form;
+  form: FormSchema;
   onSubmit: (data: any) => void;
   className?: string;
 }
@@ -17,9 +18,9 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
   form.fields.forEach((field) => {
     let fieldSchema: z.ZodTypeAny = z.string();
     
-    if (field.type === 'email') {
+    if (field.type === FieldType.EMAIL) {
       fieldSchema = z.string().email('Invalid email address');
-    } else if (field.type === 'number') {
+    } else if (field.type === FieldType.NUMBER) {
       fieldSchema = z.number();
     }
     
@@ -54,14 +55,14 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
                 {field.required && <span className="text-red-500 ml-1">*</span>}
               </label>
               
-              {field.type === 'text' || field.type === 'email' || field.type === 'number' ? (
+              {field.type === FieldType.TEXT || field.type === FieldType.EMAIL || field.type === FieldType.NUMBER ? (
                 <input
-                  type={field.type === 'number' ? 'number' : 'text'}
-                  {...methods.register(field.id, { valueAsNumber: field.type === 'number' })}
+                  type={field.type === FieldType.NUMBER ? 'number' : 'text'}
+                  {...methods.register(field.id, { valueAsNumber: field.type === FieldType.NUMBER })}
                   placeholder={field.placeholder}
                   className="w-full border-b-2 border-gray-200 focus:border-black outline-none py-2 text-xl transition-colors bg-transparent"
                 />
-              ) : field.type === 'textarea' ? (
+              ) : field.type === FieldType.TEXTAREA ? (
                 <textarea
                   {...methods.register(field.id)}
                   placeholder={field.placeholder}
