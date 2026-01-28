@@ -29,6 +29,21 @@ pnpm dev
 
 The app will be available at `http://localhost:3000`.
 
+### Running the Demo
+
+1. **Explore the Editor**: Try dragging new fields from the left palette onto the canvas.
+2. **Configure Fields**: Select a field on the canvas to open the right-side configuration panel. 
+3. **Test Examples**: Use the selector in the header to switch between pre-defined form scenarios:
+    - **Basic**: A simple contact form.
+    - **Survey**: Demonstrates how to use "Logic" in the config panel to show/hide fields.
+    - **Order**: Shows how to use "Calculations" to automatically sum totals.
+4. **Export/Import**: Save your work using the "Export" button and reload it later via "Import".
+5. **Preview & Test**: Click "Preview Form" to see the final user-facing form. Fill it out and hit submit to see the captured data in the "Console" side-panel.
+
+### Example Schemas
+
+All examples are located in `src/examples/*.ts` and are exported via `src/examples/index.ts`. They provide a great starting point for understanding how the `FormSchema` is structured.
+
 ## Configuration
 
 The demo app uses the `@rivet/form-builder` package from the workspace. Any changes made to the library source are reflected in real-time in the editor.

@@ -1,0 +1,67 @@
+import { FormSchema, FieldType } from "@rivet/form-builder";
+
+export const orderExample: FormSchema = {
+    id: "product-order",
+    title: "Order Form",
+    description: "Select items and quantity to place your order.",
+    fields: [
+        {
+            id: "product",
+            type: FieldType.SELECT,
+            label: "Product",
+            options: [
+                { label: "Laptop ($1200)", value: "1200" },
+                { label: "Monitor ($300)", value: "300" },
+                { label: "Keyboard ($100)", value: "100" }
+            ],
+            required: true,
+        },
+        {
+            id: "quantity",
+            type: FieldType.NUMBER,
+            label: "Quantity",
+            defaultValue: 1,
+            required: true,
+            validation: {
+                min: 1
+            }
+        },
+        {
+            id: "tax-rate",
+            type: FieldType.NUMBER,
+            label: "Tax Rate (%)",
+            defaultValue: 8,
+            disabled: true,
+            required: false
+        },
+        {
+            id: "subtotal",
+            type: FieldType.NUMBER,
+            label: "Subtotal ($)",
+            disabled: true,
+            required: false
+        },
+        {
+            id: "total",
+            type: FieldType.NUMBER,
+            label: "Total with Tax ($)",
+            disabled: true,
+            required: false
+        }
+    ],
+    calculations: [
+        {
+            id: "calc-subtotal",
+            formula: "{{product}} * {{quantity}}",
+            targetFieldId: "subtotal",
+            sourceFieldIds: ["product", "quantity"]
+        },
+        {
+            id: "calc-total",
+            formula: "{{subtotal}} * (1 + ({{tax-rate}} / 100))",
+            targetFieldId: "total",
+            sourceFieldIds: ["subtotal", "tax-rate"]
+        }
+    ],
+    logicRules: []
+};

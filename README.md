@@ -30,6 +30,17 @@ Start the demo application and the library in watch mode:
 pnpm dev
 ```
 
+The app will be available at `http://localhost:3000`.
+
+### Running the Demo
+
+The demo application showcases several features:
+
+1. **Example Selection**: Choose from Basic, Survey (logic), and Order (calculations) examples.
+2. **Import/Export**: Use the header buttons to download your form schema as JSON or load an existing one.
+3. **Live Preview**: Click "Preview Form" to see the active renderer and test submissions.
+4. **JSON Console**: Monitor the underlying schema in real-time as you drag-and-drop.
+
 ### Build
 
 Build all packages and applications:

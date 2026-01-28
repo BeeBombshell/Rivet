@@ -128,6 +128,16 @@ export const useFormBuilder = (initialSchema: FormSchema) => {
         updateSchema(newSchema);
     }, [state.schema, updateSchema]);
 
+    const updateLogicRule = useCallback((ruleId: string, updates: Partial<LogicRule>) => {
+        const newSchema = {
+            ...state.schema,
+            logicRules: state.schema.logicRules.map((r) =>
+                r.id === ruleId ? { ...r, ...updates } : r
+            ),
+        };
+        updateSchema(newSchema);
+    }, [state.schema, updateSchema]);
+
     // Calculation Actions
     const addCalculation = useCallback((calculation: Calculation) => {
         const newSchema = {
@@ -144,6 +154,24 @@ export const useFormBuilder = (initialSchema: FormSchema) => {
         };
         updateSchema(newSchema);
     }, [state.schema, updateSchema]);
+
+    const updateCalculation = useCallback((calcId: string, updates: Partial<Calculation>) => {
+        const newSchema = {
+            ...state.schema,
+            calculations: state.schema.calculations.map((c) =>
+                c.id === calcId ? { ...c, ...updates } : c
+            ),
+        };
+        updateSchema(newSchema);
+    }, [state.schema, updateSchema]);
+
+    const resetSchema = useCallback((newSchema: FormSchema) => {
+        setState((prev) => ({
+            ...prev,
+            schema: newSchema,
+            history: { past: [], future: [] }, // Reset history on major schema change
+        }));
+    }, []);
 
     const setSelectedFieldId = useCallback((fieldId: string | null) => {
         setState((prev) => ({ ...prev, selectedFieldId: fieldId }));
@@ -164,12 +192,15 @@ export const useFormBuilder = (initialSchema: FormSchema) => {
             reorderFields,
             addLogicRule,
             removeLogicRule,
+            updateLogicRule,
             addCalculation,
             removeCalculation,
+            updateCalculation,
             setSelectedFieldId,
             setIsDragging,
             undo,
             redo,
+            resetSchema,
             canUndo: state.history.past.length > 0,
             canRedo: state.history.future.length > 0,
         },

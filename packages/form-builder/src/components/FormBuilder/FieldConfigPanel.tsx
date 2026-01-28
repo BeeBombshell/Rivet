@@ -8,8 +8,12 @@ import {
   Eye, 
   Database,
   Calculator,
-  Zap
+  Zap,
+  ChevronRight
 } from 'lucide-react';
+import { LogicEditor } from './LogicEditor';
+import { CalculationEditor } from './CalculationEditor';
+import { LogicRule, Calculation } from '../../types/logic.types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -19,15 +23,36 @@ function cn(...inputs: ClassValue[]) {
 
 interface FieldConfigPanelProps {
   field: FormField | null;
+  allFields: FormField[];
+  logicRules: LogicRule[];
+  calculations: Calculation[];
   onUpdateField: (field: FormField) => void;
+  onAddLogicRule: (rule: LogicRule) => void;
+  onRemoveLogicRule: (ruleId: string) => void;
+  onUpdateLogicRule: (ruleId: string, rule: Partial<LogicRule>) => void;
+  onAddCalculation: (calc: Calculation) => void;
+  onRemoveCalculation: (calcId: string) => void;
+  onUpdateCalculation: (calcId: string, calc: Partial<Calculation>) => void;
   onClose: () => void;
 }
 
 export const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({ 
   field, 
+  allFields,
+  logicRules,
+  calculations,
   onUpdateField, 
+  onAddLogicRule,
+  onRemoveLogicRule,
+  onUpdateLogicRule,
+  onAddCalculation,
+  onRemoveCalculation,
+  onUpdateCalculation,
   onClose 
 }) => {
+  const [showLogicEditor, setShowLogicEditor] = React.useState(false);
+  const [showCalculationEditor, setShowCalculationEditor] = React.useState(false);
+
   if (!field) return (
     <aside className="w-80 border-l border-gray-100 bg-white p-6 flex flex-col items-center justify-center text-center">
       <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 mb-4">
@@ -161,27 +186,63 @@ export const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
               <Zap size={14} /> Interactions
             </h3>
             <div className="grid grid-cols-1 gap-2">
-               <button className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-blue-300 hover:bg-blue-50/30 transition-all text-left group">
+               <button 
+                onClick={() => setShowLogicEditor(true)}
+                className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-orange-300 hover:bg-orange-50/30 transition-all text-left group"
+               >
                   <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform">
                      <Zap size={16} />
                   </div>
-                  <div>
-                    <div className="font-bold">Conditional Logic</div>
+                  <div className="flex-1">
+                    <div className="font-bold flex items-center justify-between">
+                      Conditional Logic
+                      <ChevronRight size={14} className="text-gray-300" />
+                    </div>
                     <div className="text-[10px] text-gray-400 font-normal">Show/hide based on answers</div>
                   </div>
                </button>
 
-               <button className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-blue-300 hover:bg-blue-50/30 transition-all text-left group">
+               <button 
+                onClick={() => setShowCalculationEditor(true)}
+                className="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:border-blue-300 hover:bg-blue-50/30 transition-all text-left group"
+               >
                   <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center group-hover:scale-110 transition-transform">
                      <Calculator size={16} />
                   </div>
-                  <div>
-                    <div className="font-bold">Calculations</div>
+                  <div className="flex-1">
+                    <div className="font-bold flex items-center justify-between">
+                      Calculations
+                      <ChevronRight size={14} className="text-gray-300" />
+                    </div>
                     <div className="text-[10px] text-gray-400 font-normal">Real-time math formulas</div>
                   </div>
                </button>
             </div>
         </section>
+
+        {showLogicEditor && (
+          <LogicEditor 
+            field={field}
+            allFields={allFields}
+            rules={logicRules}
+            onAddRule={onAddLogicRule}
+            onRemoveRule={onRemoveLogicRule}
+            onUpdateRule={onUpdateLogicRule}
+            onClose={() => setShowLogicEditor(false)}
+          />
+        )}
+
+        {showCalculationEditor && (
+          <CalculationEditor 
+            field={field}
+            allFields={allFields}
+            calculations={calculations}
+            onAddCalculation={onAddCalculation}
+            onRemoveCalculation={onRemoveCalculation}
+            onUpdateCalculation={onUpdateCalculation}
+            onClose={() => setShowCalculationEditor(false)}
+          />
+        )}
       </div>
 
       <div className="p-6 bg-gray-50 border-t border-gray-100">

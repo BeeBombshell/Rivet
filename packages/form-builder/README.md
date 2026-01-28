@@ -27,7 +27,7 @@ pnpm add @rivet/form-builder
 
 ```tsx
 import { FormBuilder } from '@rivet/form-builder';
-import '@rivet/form-builder/dist/styles.css';
+import '@rivet/form-builder/styles.css';
 
 const MyEditor = () => {
     return (
