@@ -9,8 +9,8 @@
         "module": "ESNext",
         "moduleResolution": "Bundler",
         "paths": {
-            "rivet-forms": [
-                "./packages/rivet-forms/src/index.tsx"
+            "@rivet/form-builder": [
+                "./packages/form-builder/src/index.tsx"
             ]
         },
         "resolveJsonModule": true,

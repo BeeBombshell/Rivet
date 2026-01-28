@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { FormBuilder, FormRenderer, FormSchema, FieldType, LogicAction, ConditionOperator } from "rivet-forms";
+import { FormBuilder, FormRenderer, FormSchema, FieldType, LogicAction, ConditionOperator } from "@rivet/form-builder";
+import "@rivet/form-builder/dist/styles.css";
+
 
 export default function Home() {
   const [form, setForm] = useState<FormSchema>({

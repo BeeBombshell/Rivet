@@ -1,6 +1,6 @@
-# Rivet Forms Demo App
+# Rivet Form Builder Demo App
 
-A modern Next.js 15 application showcasing the premium 3-column Editor and robust Form Renderer of the `rivet-forms` library.
+A modern Next.js 15 application showcasing the premium 3-column Editor and robust Form Renderer of the `@rivet/form-builder` library.
 
 ## Key Features
 
@@ -31,7 +31,7 @@ The app will be available at `http://localhost:3000`.
 
 ## Configuration
 
-The demo app uses the `rivet-forms` package from the workspace. Any changes made to the library source are reflected in real-time in the editor.
+The demo app uses the `@rivet/form-builder` package from the workspace. Any changes made to the library source are reflected in real-time in the editor.
 
 ## Stack
 
@@ -39,4 +39,4 @@ The demo app uses the `rivet-forms` package from the workspace. Any changes made
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
 - **Drag & Drop**: `@dnd-kit`
-- **Library**: `rivet-forms` (Local Workspace)
+- **Library**: `@rivet/form-builder` (Local Workspace)

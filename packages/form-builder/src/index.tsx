@@ -1,4 +1,6 @@
+import './styles/index.css';
 export * from './schemas';
+
 export * from './components/FormBuilder';
 export * from './components/FormRenderer';
 export * from './types/field.types';

@@ -1,4 +1,4 @@
-# rivet-forms
+# @rivet/form-builder
 
 Core library for the Rivet Form Builder. Provides a powerful, modular 3-column Editor and a flexible Form Renderer for dynamic, logic-driven forms.
 
@@ -16,9 +16,9 @@ Core library for the Rivet Form Builder. Provides a powerful, modular 3-column E
 ## Installation
 
 ```bash
-npm install rivet-forms
+npm install @rivet/form-builder
 # or
-pnpm add rivet-forms
+pnpm add @rivet/form-builder
 ```
 
 ## Basic Usage
@@ -26,8 +26,8 @@ pnpm add rivet-forms
 ### Editor
 
 ```tsx
-import { FormBuilder } from 'rivet-forms';
-import 'rivet-forms/dist/index.css';
+import { FormBuilder } from '@rivet/form-builder';
+import '@rivet/form-builder/dist/styles.css';
 
 const MyEditor = () => {
     return (
@@ -41,7 +41,7 @@ const MyEditor = () => {
 ### Renderer
 
 ```tsx
-import { FormRenderer } from 'rivet-forms';
+import { FormRenderer } from '@rivet/form-builder';
 
 const MyForm = () => {
     return (
@@ -58,7 +58,7 @@ const MyForm = () => {
 `useFormBuilder` is a custom hook provided for developers who want to build their own UI around the Rivet state engine. It manages form schema, field actions, logic, and calculations with built-in undo/redo support.
 
 ```tsx
-import { useFormBuilder } from 'rivet-forms';
+import { useFormBuilder } from '@rivet/form-builder';
 
 const MyCustomBuilder = () => {
     const { schema, actions } = useFormBuilder(initialSchema);
@@ -96,7 +96,7 @@ The library provides utilities for schema management and dynamic form validation
 
 #### Schema Utilities
 ```tsx
-import { serializeSchema, deserializeSchema, validateSchema, migrateSchema } from 'rivet-forms';
+import { serializeSchema, deserializeSchema, validateSchema, migrateSchema } from '@rivet/form-builder';
 
 // Serialize schema to JSON
 const json = serializeSchema(formSchema);
@@ -116,7 +116,7 @@ const migratedSchema = migrateSchema(oldSchema);
 
 #### Dynamic Form Validation
 ```tsx
-import { generateZodSchema, validateFormValues } from 'rivet-forms';
+import { generateZodSchema, validateFormValues } from '@rivet/form-builder';
 
 // Generate Zod schema from form schema
 const zodSchema = generateZodSchema(formSchema);

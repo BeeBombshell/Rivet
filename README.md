@@ -6,8 +6,8 @@ A premium, high-performance form builder library with a Tally-style 3-column UX,
 
 This is a monorepo managed by `pnpm` and `Turborepo`.
 
-- **`packages/rivet-forms`**: The core form builder library featuring the modular 3-column Editor.
-- **`apps/demo`**: A Next.js 15 application demonstrating the usage of `rivet-forms` with live Editor/Preview toggle.
+- **`packages/form-builder`**: The core form builder library featuring the modular 3-column Editor.
+- **`apps/demo`**: A Next.js 15 application demonstrating the usage of `@rivet/form-builder` with live Editor/Preview toggle.
 
 ## Quick Start
 
