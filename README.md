@@ -47,6 +47,7 @@ pnpm build
 - **Advanced Drag & Drop**: Seamless field addition and reordering powered by `@dnd-kit`.
 - **Conditional Logic**: Powerful engine for field visibility and dynamic behavior.
 - **Calculated Fields**: Support for complex formulas using `{fieldId}`, `@fieldId`, math operations, and functional aggregations (`SUM`, `AVG`, `MIN`, `MAX`).
+- **Validation & Schema Utilities**: Dynamic Zod schema generation from form schemas, schema serialization/deserialization, and migration utilities.
 - **Undo/Redo & State Management**: Global state management with built-in history stack for seamless undo/redo functionality.
 - **Import/Export**: Full schema synchronization via JSON files.
 - **Premium Aesthetics**: Styled with modern typography, smooth transitions, and a clean, modular design.

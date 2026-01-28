@@ -90,6 +90,55 @@ The engine supports complex formulas for calculated fields:
 - **Functions**: `SUM(...)`, `AVG(...)`, `MIN(...)`, `MAX(...)`
 - **Dependent Calculations**: Supports multi-level dependency resolution.
 
+### Validation & Schema Utilities
+
+The library provides utilities for schema management and dynamic form validation:
+
+#### Schema Utilities
+```tsx
+import { serializeSchema, deserializeSchema, validateSchema, migrateSchema } from 'rivet-forms';
+
+// Serialize schema to JSON
+const json = serializeSchema(formSchema);
+
+// Deserialize JSON to schema
+const schema = deserializeSchema(json);
+
+// Validate schema structure
+const result = validateSchema(schemaObject);
+if (!result.success) {
+    console.log(result.error.errors);
+}
+
+// Migrate legacy schemas
+const migratedSchema = migrateSchema(oldSchema);
+```
+
+#### Dynamic Form Validation
+```tsx
+import { generateZodSchema, validateFormValues } from 'rivet-forms';
+
+// Generate Zod schema from form schema
+const zodSchema = generateZodSchema(formSchema);
+
+// Validate form data
+const result = validateFormValues(formSchema, formData);
+if (!result.success) {
+    result.error.errors.forEach(err => {
+        console.log(`${err.path}: ${err.message}`);
+    });
+}
+```
+
+**Supported Validations**:
+- **Text/TextArea**: min/max length, regex patterns
+- **Number/Rating**: min/max values
+- **Email**: email format validation
+- **URL**: URL format validation
+- **Checkbox**: array validation with min selection
+- **Date**: date/string validation
+- **Required/Optional**: automatic handling based on field configuration
+
 ### Logic Operators Supported:
 - `equals`, `notEquals`
 - `contains`, `notContains`

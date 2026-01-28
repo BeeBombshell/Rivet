@@ -9,3 +9,5 @@ export * from './logic/conditionalEngine';
 export * from './logic/calculationEngine';
 export * from './hooks/useFormBuilder';
 export * from './hooks/useFormLogic';
+export * from './utils/schema';
+export * from './utils/validation';
