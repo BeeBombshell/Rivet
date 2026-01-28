@@ -13,6 +13,55 @@ interface FormRendererProps {
     className?: string;
 }
 
+// Logic Evaluator - used for both rendering and validation
+const evaluateLogic = (form: FormSchema, currentValues: any = {}) => {
+    const states: Record<string, { hidden: boolean; disabled: boolean }> = {};
+    
+    // Initialize with field defaults
+    form.fields.forEach(f => {
+        states[f.id] = { hidden: !!f.hidden, disabled: !!f.disabled };
+    });
+
+    const evaluateCondition = (condition: any) => {
+        const value = currentValues[condition.fieldId];
+        const target = condition.value;
+
+        switch (condition.operator) {
+            case ConditionOperator.EQUALS: return String(value) === String(target);
+            case ConditionOperator.NOT_EQUALS: return String(value) !== String(target);
+            case ConditionOperator.CONTAINS: return String(value || '').includes(String(target));
+            case ConditionOperator.NOT_CONTAINS: return !String(value || '').includes(String(target));
+            case ConditionOperator.GREATER_THAN: return Number(value || 0) > Number(target);
+            case ConditionOperator.LESS_THAN: return Number(value || 0) < Number(target);
+            case ConditionOperator.IS_EMPTY: return !value || (Array.isArray(value) && value.length === 0);
+            case ConditionOperator.IS_NOT_EMPTY: return !!value && (!Array.isArray(value) || value.length > 0);
+            default: return false;
+        }
+    };
+
+    form.logicRules.forEach(rule => {
+        const results = rule.conditions.map(evaluateCondition);
+        const isTriggered = rule.conditionType === 'all' 
+            ? results.every(r => r) 
+            : results.some(r => r);
+
+        if (isTriggered) {
+            rule.targetFieldIds.forEach(targetId => {
+                if (!states[targetId]) return;
+                
+                switch (rule.action) {
+                    case LogicAction.SHOW: states[targetId].hidden = false; break;
+                    case LogicAction.HIDE: states[targetId].hidden = true; break;
+                    case LogicAction.ENABLE: states[targetId].disabled = false; break;
+                    case LogicAction.DISABLE: states[targetId].disabled = true; break;
+                }
+            });
+        }
+    });
+
+    return states;
+};
+
 export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, className }) => {
     const [isMounted, setIsMounted] = React.useState(false);
 
@@ -22,7 +71,6 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
 
     // 1. Generate Zod Schema
     const dynamicSchema = useMemo(() => {
-        // ... (schema generation stays the same)
         const shape: Record<string, z.ZodTypeAny> = {};
         
         form.fields.forEach((field) => {
@@ -52,28 +100,32 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
                     fieldSchema = z.any();
             }
 
-            if (field.required) {
-                if (fieldSchema instanceof z.ZodString) {
-                    fieldSchema = fieldSchema.min(1, `${field.label} is required`);
-                } else if (fieldSchema instanceof z.ZodArray) {
-                    fieldSchema = fieldSchema.min(1, `Please select at least one ${field.label}`);
-                } else {
-                    fieldSchema = fieldSchema.refine((val) => val !== undefined && val !== null, {
-                        message: `${field.label} is required`,
-                    });
-                }
-            } else {
-                fieldSchema = fieldSchema.optional().nullable();
-                if (fieldSchema instanceof z.ZodString) {
-                    fieldSchema = fieldSchema.or(z.literal(''));
-                }
-            }
+            // Always make fields optional in the base shape, 
+            // we will handle "required" via superRefine based on visibility
+            fieldSchema = fieldSchema.optional().nullable().or(z.literal(''));
             
             shape[field.id] = fieldSchema;
         });
 
-        return z.object(shape);
-    }, [form.fields]);
+        return z.object(shape).superRefine((data, ctx) => {
+            const states = evaluateLogic(form, data);
+
+            form.fields.forEach((field) => {
+                if (field.required && !states[field.id]?.hidden) {
+                    const value = data[field.id];
+                    const isEmpty = value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0);
+                    
+                    if (isEmpty) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: `${field.label} is required`,
+                            path: [field.id],
+                        });
+                    }
+                }
+            });
+        });
+    }, [form]);
 
     const methods = useForm({
         resolver: zodResolver(dynamicSchema),
@@ -88,54 +140,8 @@ export const FormRenderer: React.FC<FormRendererProps> = ({ form, onSubmit, clas
 
     // 2. Logic Rules Evaluation
     const fieldStates = useMemo(() => {
-        const states: Record<string, { hidden: boolean; disabled: boolean }> = {};
-        
-        // Initialize with field defaults
-        form.fields.forEach(f => {
-            states[f.id] = { hidden: !!f.hidden, disabled: !!f.disabled };
-        });
-
-        // Use getValues() as a fallback if useWatch hasn't provided values yet
         const currentValues = watchedValues || getValues() || {};
-
-        const evaluateCondition = (condition: any) => {
-            const value = currentValues[condition.fieldId];
-            const target = condition.value;
-
-            switch (condition.operator) {
-                case ConditionOperator.EQUALS: return value === target;
-                case ConditionOperator.NOT_EQUALS: return value !== target;
-                case ConditionOperator.CONTAINS: return String(value || '').includes(String(target));
-                case ConditionOperator.NOT_CONTAINS: return !String(value || '').includes(String(target));
-                case ConditionOperator.GREATER_THAN: return Number(value || 0) > Number(target);
-                case ConditionOperator.LESS_THAN: return Number(value || 0) < Number(target);
-                case ConditionOperator.IS_EMPTY: return !value || (Array.isArray(value) && value.length === 0);
-                case ConditionOperator.IS_NOT_EMPTY: return !!value && (!Array.isArray(value) || value.length > 0);
-                default: return false;
-            }
-        };
-
-        form.logicRules.forEach(rule => {
-            const results = rule.conditions.map(evaluateCondition);
-            const isTriggered = rule.conditionType === 'all' 
-                ? results.every(r => r) 
-                : results.some(r => r);
-
-            if (isTriggered) {
-                rule.targetFieldIds.forEach(targetId => {
-                    if (!states[targetId]) return;
-                    
-                    switch (rule.action) {
-                        case LogicAction.SHOW: states[targetId].hidden = false; break;
-                        case LogicAction.HIDE: states[targetId].hidden = true; break;
-                        case LogicAction.ENABLE: states[targetId].disabled = false; break;
-                        case LogicAction.DISABLE: states[targetId].disabled = true; break;
-                    }
-                });
-            }
-        });
-
-        return states;
+        return evaluateLogic(form, currentValues);
     }, [watchedValues, form.logicRules, form.fields, getValues]);
 
     // 3. Calculations Evaluation
