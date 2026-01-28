@@ -5,6 +5,8 @@ export enum ConditionOperator {
     NOT_CONTAINS = 'notContains',
     GREATER_THAN = 'greaterThan',
     LESS_THAN = 'lessThan',
+    GREATER_THAN_OR_EQUAL = 'greaterThanOrEqual',
+    LESS_THAN_OR_EQUAL = 'lessThanOrEqual',
     BETWEEN = 'between',
     IS_EMPTY = 'isEmpty',
     IS_NOT_EMPTY = 'isNotEmpty',
