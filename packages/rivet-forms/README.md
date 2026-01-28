@@ -1,13 +1,17 @@
 # rivet-forms
 
-Core library for the Rivet Form Builder. Provides components and hooks for building dynamic, logic-driven forms.
+Core library for the Rivet Form Builder. Provides a powerful, modular 3-column Editor and a flexible Form Renderer for dynamic, logic-driven forms.
 
 ## Features
 
-- **FormBuilder**: The main UI component for building forms.
-- **Conditional Logic Engine**: Sophisticated logic for field visibility and rules.
-- **Calculated Fields**: Support for field formulas.
-- **Tailwind-powered**: Easily customizable using CSS variables.
+- **FormBuilder (3-Column Editor)**: 
+    - **Field Palette**: Drag-and-drop field types categorization.
+    - **Form Canvas**: Real-time form assembly with reordering support.
+    - **Config Panel**: Context-aware sidebar for configuring field metadata, logic, and calculations.
+- **FormRenderer**: High-performance component to render built forms with full support for conditional visibility and real-time calculations.
+- **Conditional Logic Engine**: Sophisticated logic for field visibility and interaction rules.
+- **Calculation Engine**: Support for native field formulas and aggregations.
+- **Tailwind-powered**: Fully customizable design system using CSS variables and utility classes.
 
 ## Installation
 
@@ -19,14 +23,31 @@ pnpm add rivet-forms
 
 ## Basic Usage
 
+### Editor
+
 ```tsx
 import { FormBuilder } from 'rivet-forms';
 import 'rivet-forms/dist/index.css';
 
-const MyForm = () => {
+const MyEditor = () => {
     return (
         <FormBuilder 
-            onSave={(schema) => console.log(schema)} 
+            onChange={(schema) => console.log('Schema Updated:', schema)} 
+        />
+    );
+};
+```
+
+### Renderer
+
+```tsx
+import { FormRenderer } from 'rivet-forms';
+
+const MyForm = () => {
+    return (
+        <FormRenderer 
+            form={schema} 
+            onSubmit={(data) => console.log('Form Submitted:', data)} 
         />
     );
 };
@@ -37,7 +58,7 @@ The engine supports complex formulas for calculated fields:
 - **Field References**: `{fieldId}` or `@fieldId`
 - **Operators**: `+`, `-`, `*`, `/`, `%`
 - **Functions**: `SUM(...)`, `AVG(...)`, `MIN(...)`, `MAX(...)`
-- **Dependent Calculations**: Calculations can reference other calculated fields.
+- **Dependent Calculations**: Supports multi-level dependency resolution.
 
 ### Logic Operators Supported:
 - `equals`, `notEquals`

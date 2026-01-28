@@ -106,30 +106,37 @@ export default function Home() {
   const [mode, setMode] = useState<"builder" | "preview">("preview");
 
   return (
-    <main className="min-h-screen bg-gray-50/30">
-      <div className="fixed top-4 right-4 z-50 flex gap-2 bg-white p-2 rounded-full shadow-lg border border-gray-100">
+    <main className="min-h-screen bg-[#F9FAFB]">
+      {/* Dynamic Toggle Button - Moved to be less intrusive in Builder mode */}
+      <div className="fixed bottom-6 right-6 z-50 flex gap-2 bg-white/80 backdrop-blur-md p-2 rounded-2xl shadow-2xl border border-gray-200/50">
         <button
           onClick={() => setMode("builder")}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-            mode === "builder" ? "bg-black text-white" : "hover:bg-gray-100"
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+            mode === "builder" 
+              ? "bg-blue-600 text-white shadow-lg shadow-blue-200" 
+              : "text-gray-600 hover:bg-gray-100"
           }`}
         >
           Editor
         </button>
         <button
           onClick={() => setMode("preview")}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-            mode === "preview" ? "bg-black text-white" : "hover:bg-gray-100"
+          className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+            mode === "preview" 
+              ? "bg-blue-600 text-white shadow-lg shadow-blue-200" 
+              : "text-gray-600 hover:bg-gray-100"
           }`}
         >
           Preview
         </button>
       </div>
 
-      <div className="py-20">
-        {mode === "builder" ? (
+      {mode === "builder" ? (
+        <div className="h-screen">
           <FormBuilder initialData={form} onChange={setForm} />
-        ) : (
+        </div>
+      ) : (
+        <div className="py-20 px-6">
           <div className="max-w-3xl mx-auto p-12 bg-white shadow-2xl rounded-[32px] border border-gray-100">
             <FormRenderer
               form={form}
@@ -139,13 +146,15 @@ export default function Home() {
               }}
             />
           </div>
-        )}
-      </div>
-
-      <div className="fixed bottom-4 left-4 text-xs text-gray-400 font-mono bg-white/80 p-4 rounded-lg border border-gray-100 max-h-[300px] overflow-auto max-w-[400px]">
-        <h3 className="font-bold mb-2 uppercase text-[10px] text-gray-400">Current Schema</h3>
-        <pre>{JSON.stringify(form, null, 2)}</pre>
-      </div>
+          
+          <div className="max-w-3xl mx-auto mt-12 p-8 bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
+            <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Live Schema Preview</h3>
+            <pre className="text-emerald-400 font-mono text-sm overflow-auto max-h-[400px]">
+              {JSON.stringify(form, null, 2)}
+            </pre>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

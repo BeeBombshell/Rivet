@@ -1,12 +1,13 @@
 # Rivet Forms Demo App
 
-A Next.js 15 application showcasing the capabilities of the `rivet-forms` library.
+A modern Next.js 15 application showcasing the premium 3-column Editor and robust Form Renderer of the `rivet-forms` library.
 
-## Features
+## Key Features
 
-- **Live Preview**: Building forms and seeing the results in real-time.
-- **Logic Debugging**: Test conditional rules and calculations.
-- **Modern UI**: Styled with Tailwind CSS.
+- **Premium 3-Column Editor**: A Tally-inspired interface for building forms with a categorized palette, drag-and-drop canvas, and live configuration side panel.
+- **Interactive Live Preview**: Toggle between "Editor" and "Preview" modes to see your form changes instantly.
+- **Full Engine Showcase**: Tested with complex conditional logic rules and multi-level calculated fields.
+- **Real-time Schema visualization**: A built-in terminal view to watch your form's JSON schema evolve as you build.
 
 ## Getting Started
 
@@ -20,7 +21,7 @@ pnpm install
 
 ### Development
 
-Run the demo app:
+Run the demo app (along with the library watch mode):
 
 ```bash
 pnpm dev
@@ -30,11 +31,12 @@ The app will be available at `http://localhost:3000`.
 
 ## Configuration
 
-The demo app uses the `rivet-forms` package from the workspace. Any changes made to the package will be reflected in the demo app (rebuild might be necessary if tsup watch is not running).
+The demo app uses the `rivet-forms` package from the workspace. Any changes made to the library source are reflected in real-time in the editor.
 
 ## Stack
 
-- **Framework**: Next.js 15
+- **Framework**: Next.js 15 (App Router)
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
-- **Library**: `rivet-forms` (local workspace package)
+- **Drag & Drop**: `@dnd-kit`
+- **Library**: `rivet-forms` (Local Workspace)

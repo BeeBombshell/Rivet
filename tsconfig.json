@@ -10,7 +10,7 @@
         "moduleResolution": "Bundler",
         "paths": {
             "rivet-forms": [
-                "./packages/rivet-forms/src/index.ts"
+                "./packages/rivet-forms/src/index.tsx"
             ]
         },
         "resolveJsonModule": true,
